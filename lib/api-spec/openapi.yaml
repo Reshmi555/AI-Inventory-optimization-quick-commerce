@@ -3,20 +3,21 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Read-only supply-chain analytics API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: supply-chain
+    description: Supply-chain analytics
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,13 +25,391 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /supply-chain/overview:
+    get:
+      operationId: getSupplyChainOverview
+      tags: [supply-chain]
+      summary: Executive overview metrics
+      responses:
+        "200":
+          description: Overview
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SupplyChainOverview"
+  /supply-chain/forecasts:
+    get:
+      operationId: getSupplyChainForecasts
+      tags: [supply-chain]
+      summary: Daily forecast and observed demand rows
+      parameters:
+        - $ref: "#/components/parameters/StoreId"
+        - $ref: "#/components/parameters/ProductId"
+      responses:
+        "200":
+          description: Forecast rows
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ForecastPoint"
+  /supply-chain/risks:
+    get:
+      operationId: getSupplyChainRisks
+      tags: [supply-chain]
+      summary: Risk and exception records
+      parameters:
+        - $ref: "#/components/parameters/RiskLevel"
+        - $ref: "#/components/parameters/StoreId"
+        - $ref: "#/components/parameters/ProductId"
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 1000
+      responses:
+        "200":
+          description: Risk records
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RiskResponse"
+  /supply-chain/policies:
+    get:
+      operationId: getSupplyChainPolicies
+      tags: [supply-chain]
+      summary: Replenishment policy comparison
+      responses:
+        "200":
+          description: Policy comparison
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PolicyComparison"
+  /supply-chain/drivers:
+    get:
+      operationId: getSupplyChainDrivers
+      tags: [supply-chain]
+      summary: Forecast and inventory risk drivers
+      responses:
+        "200":
+          description: Drivers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DriversResponse"
+  /supply-chain/scenarios:
+    get:
+      operationId: getSupplyChainScenario
+      tags: [supply-chain]
+      summary: Stored one-factor scenario sensitivity
+      parameters:
+        - name: dimension
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [demand_multiplier, lead_time_days, holding_cost_per_unit_day, stockout_cost_per_unit, shelf_life_days]
+        - name: value
+          in: query
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Scenario result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScenarioResponse"
+        "400":
+          description: Invalid scenario request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Scenario value unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /supply-chain/analyst:
+    post:
+      operationId: askSupplyChainAnalyst
+      tags: [supply-chain]
+      summary: Ask the grounded supply-chain analyst
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnalystQuestion"
+      responses:
+        "200":
+          description: Grounded analyst response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalystResponse"
+        "400":
+          description: Invalid question
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
+  parameters:
+    StoreId:
+      name: storeId
+      in: query
+      required: false
+      schema:
+        type: integer
+    ProductId:
+      name: productId
+      in: query
+      required: false
+      schema:
+        type: integer
+    RiskLevel:
+      name: level
+      in: query
+      required: false
+      schema:
+        type: string
+        enum: [Critical, High, Medium, Low]
   schemas:
     HealthStatus:
       type: object
       properties:
-        status:
+        status: { type: string }
+      required: [status]
+    Error:
+      type: object
+      properties:
+        error: { type: string }
+      required: [error]
+    RiskLevelCounts:
+      type: object
+      properties:
+        Critical: { type: integer }
+        High: { type: integer }
+        Medium: { type: integer }
+        Low: { type: integer }
+      required: [Critical, High, Medium, Low]
+    ForecastMetrics:
+      type: object
+      properties:
+        model: { type: string }
+        targetStatus: { type: string }
+        n: { type: integer }
+        mae: { type: number }
+        rmse: { type: number }
+        wape: { type: number }
+        smape: { type: number }
+      required: [model, targetStatus, n, mae, rmse, wape, smape]
+    CostMetrics:
+      type: object
+      properties:
+        totalInventoryRelatedCost: { type: number }
+        orderingCost: { type: number }
+        holdingCost: { type: number }
+        stockoutLostSalesCost: { type: number }
+        spoilageCost: { type: number }
+      required: [totalInventoryRelatedCost, orderingCost, holdingCost, stockoutLostSalesCost, spoilageCost]
+    TrendPoint:
+      type: object
+      properties:
+        date: { type: string }
+        observedDemand: { type: number }
+        forecastDemand: { type: number }
+        observedStockoutRate: { type: number }
+      required: [date, observedDemand, forecastDemand, observedStockoutRate]
+    RiskReason:
+      type: object
+      properties:
+        reason: { type: string }
+        count: { type: integer }
+      required: [reason, count]
+    SupplyChainOverview:
+      type: object
+      properties:
+        assessmentDate: { type: string }
+        holdoutStart: { type: string }
+        holdoutEnd: { type: string }
+        forecastModel: { type: string }
+        policyLabel: { type: string }
+        totalSeries: { type: integer }
+        totalStores: { type: integer }
+        totalProducts: { type: integer }
+        forecastMetrics: { $ref: "#/components/schemas/ForecastMetrics" }
+        riskCounts: { $ref: "#/components/schemas/RiskLevelCounts" }
+        exceptionCount: { type: integer }
+        stockoutQuantity: { type: number }
+        serviceLevelProxy: { type: number }
+        observedStockoutFrequency: { type: number }
+        excessInventoryQuantity: { type: number }
+        potentialSpoilageQuantity: { type: number }
+        estimatedSpoilageQuantity: { type: number }
+        urgentReplenishmentCount: { type: integer }
+        replenishmentQuantity: { type: number }
+        costMetrics: { $ref: "#/components/schemas/CostMetrics" }
+        trend:
+          type: array
+          items: { $ref: "#/components/schemas/TrendPoint" }
+        riskReasons:
+          type: array
+          items: { $ref: "#/components/schemas/RiskReason" }
+      required: [assessmentDate, holdoutStart, holdoutEnd, forecastModel, policyLabel, totalSeries, totalStores, totalProducts, forecastMetrics, riskCounts, exceptionCount, stockoutQuantity, serviceLevelProxy, observedStockoutFrequency, excessInventoryQuantity, potentialSpoilageQuantity, estimatedSpoilageQuantity, urgentReplenishmentCount, replenishmentQuantity, costMetrics, trend, riskReasons]
+    ForecastPoint:
+      type: object
+      properties:
+        storeId: { type: integer }
+        productId: { type: integer }
+        date: { type: string }
+        forecastDemand: { type: number }
+        observedDemand: { type: number }
+        forecastLower: { type: number }
+        forecastUpper: { type: number }
+        observedStockout: { type: boolean }
+        recentObservedDemand7d: { type: number }
+        recentStockoutRate7d: { type: number }
+        keyDrivers: { type: string }
+      required: [storeId, productId, date, forecastDemand, observedDemand, forecastLower, forecastUpper, observedStockout, recentObservedDemand7d, recentStockoutRate7d, keyDrivers]
+    RiskRecord:
+      type: object
+      properties:
+        storeId: { type: integer }
+        productId: { type: integer }
+        assessmentDate: { type: string }
+        forecastDemand: { type: number }
+        referenceDailyDemand: { type: number }
+        currentSimulatedInventory: { type: number }
+        inventoryCoverageDays: { type: number }
+        leadTimeDays: { type: integer }
+        reviewPeriodDays: { type: integer }
+        shelfLifeDays: { type: integer }
+        replenishmentQuantity: { type: number }
+        simulatedStockoutQuantity: { type: number }
+        stockoutRisk: { type: number }
+        excessInventoryIndicator: { type: boolean }
+        excessInventoryQuantity: { type: number }
+        excessInventoryRisk: { type: number }
+        estimatedSpoilageExposure: { type: number }
+        potentialSpoilageRisk: { type: number }
+        demandSpikeRisk: { type: number }
+        forecastUncertaintyRisk: { type: number }
+        replenishmentUrgency: { type: number }
+        overallRiskScore: { type: number }
+        overallRiskLevel: { type: string }
+        primaryReason: { type: string }
+        contributingFactors: { type: string }
+      required: [storeId, productId, assessmentDate, forecastDemand, referenceDailyDemand, currentSimulatedInventory, inventoryCoverageDays, leadTimeDays, reviewPeriodDays, shelfLifeDays, replenishmentQuantity, simulatedStockoutQuantity, stockoutRisk, excessInventoryIndicator, excessInventoryQuantity, excessInventoryRisk, estimatedSpoilageExposure, potentialSpoilageRisk, demandSpikeRisk, forecastUncertaintyRisk, replenishmentUrgency, overallRiskScore, overallRiskLevel, primaryReason, contributingFactors]
+    RiskResponse:
+      type: object
+      properties:
+        total: { type: integer }
+        records:
+          type: array
+          items: { $ref: "#/components/schemas/RiskRecord" }
+      required: [total, records]
+    PolicyComparison:
+      type: object
+      properties:
+        policy: { type: string }
+        policyLabel: { type: string }
+        simulationStart: { type: string }
+        simulationEnd: { type: string }
+        stockoutQuantity: { type: number }
+        serviceLevelProxy: { type: number }
+        totalInventoryRelatedCost: { type: number }
+        orderCount: { type: integer }
+        replenishmentQuantity: { type: number }
+        estimatedSpoilage: { type: number }
+        excessInventory: { type: number }
+      required: [policy, policyLabel, simulationStart, simulationEnd, stockoutQuantity, serviceLevelProxy, totalInventoryRelatedCost, orderCount, replenishmentQuantity, estimatedSpoilage, excessInventory]
+    DriverExample:
+      type: object
+      properties:
+        exampleType: { type: string }
+        storeId: { type: integer }
+        productId: { type: integer }
+        date: { type: string }
+        forecastDemand: { type: number }
+        forecastLower: { type: number }
+        forecastUpper: { type: number }
+        keyDrivers: { type: string }
+      required: [exampleType, storeId, productId, date, forecastDemand, forecastLower, forecastUpper, keyDrivers]
+    DriversResponse:
+      type: object
+      properties:
+        selectedModel: { type: string }
+        modelDrivers:
+          type: array
+          items: { type: string }
+        examples:
+          type: array
+          items: { $ref: "#/components/schemas/DriverExample" }
+        riskDrivers:
+          type: array
+          items: { $ref: "#/components/schemas/RiskReason" }
+      required: [selectedModel, modelDrivers, examples, riskDrivers]
+    ScenarioRow:
+      type: object
+      properties:
+        multiplier: { type: number }
+        realizedServiceLevel: { type: number }
+        stockoutQuantity: { type: number }
+        totalModeledCost: { type: number }
+        forecastPathServiceLevel: { type: number }
+        excessInventory: { type: number }
+        estimatedSpoilage: { type: number }
+      required: [multiplier, realizedServiceLevel, stockoutQuantity, totalModeledCost, forecastPathServiceLevel, excessInventory, estimatedSpoilage]
+    ScenarioResponse:
+      type: object
+      properties:
+        dimension: { type: string }
+        value: { type: number }
+        availableValues:
+          type: array
+          items: { type: number }
+        label: { type: string }
+        note: { type: string }
+        scenario: { $ref: "#/components/schemas/ScenarioRow" }
+        baseline: { $ref: "#/components/schemas/ScenarioRow" }
+      required: [dimension, value, availableValues, label, note, scenario, baseline]
+    AnalystQuestion:
+      type: object
+      properties:
+        question:
           type: string
-      required:
-        - status
+          minLength: 1
+          maxLength: 500
+      required: [question]
+    AnalystRecord:
+      type: object
+      additionalProperties: true
+    AnalystResponse:
+      type: object
+      properties:
+        question: { type: string }
+        intent: { type: string }
+        answer: { type: string }
+        grounded: { type: boolean }
+        sourceFiles:
+          type: array
+          items: { type: string }
+        sourcePeriod:
+          type: ["string", "null"]
+        records:
+          type: array
+          items: { $ref: "#/components/schemas/AnalystRecord" }
+      required: [question, intent, answer, grounded, sourceFiles, sourcePeriod, records]
 

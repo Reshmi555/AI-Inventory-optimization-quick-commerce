@@ -1,0 +1,11 @@
+example_type,store_id,product_id,forecast_date,forecast_demand,forecast_lower,forecast_upper,recent_observed_demand_7d,recent_stockout_rate_7d,discount,holiday_flag,activity_flag,lag_1,lag_7,rolling_mean_7,key_drivers
+highest_selected_forecast,21,267,2024-06-30,28.464447,27.678492,29.250402,28.842857142857138,0.42857142857142855,0.0,1,0,31.5,31.3,28.842857142857138,"lag_1, rolling_mean_7, rolling_mean_14, lag_7, management_group_id"
+highest_selected_forecast,21,267,2024-06-29,28.44194,27.655985,29.227896,28.928571428571427,0.42857142857142855,0.0,1,0,29.9,32.1,28.928571428571427,"lag_1, rolling_mean_7, rolling_mean_14, lag_7, management_group_id"
+highest_selected_forecast,21,267,2024-06-28,28.274055,27.4881,29.06001,29.171428571428574,0.42857142857142855,0.0,0,0,27.3,31.6,29.171428571428574,"lag_1, rolling_mean_7, rolling_mean_14, lag_7, management_group_id"
+highest_selected_forecast,21,267,2024-06-27,28.050453,27.264498,28.836409,28.571428571428573,0.42857142857142855,0.0,0,0,28.7,23.1,28.571428571428573,"lag_1, rolling_mean_7, rolling_mean_14, lag_7, management_group_id"
+highest_selected_forecast,21,267,2024-06-26,27.299715,26.51376,28.08567,28.042857142857144,0.5714285714285714,0.0,0,0,29.1,25.0,28.042857142857144,"lag_1, rolling_mean_7, rolling_mean_14, lag_7, management_group_id"
+lowest_selected_forecast,9,802,2024-07-01,0.0,0.0,0.7859554,0.3000000000000001,0.14285714285714285,1.0,0,0,0.0,0.5,0.3000000000000001,"lag_1, rolling_mean_7, rolling_mean_14, lag_7, management_group_id"
+lowest_selected_forecast,9,802,2024-07-02,0.0,0.0,0.7859554,0.2285714285714286,0.2857142857142857,1.0,0,0,0.0,0.4,0.2285714285714286,"lag_1, rolling_mean_7, rolling_mean_14, lag_7, management_group_id"
+lowest_selected_forecast,16,802,2024-07-01,0.0,0.0,0.7859554,0.2857142857142857,0.14285714285714285,1.0,0,0,0.0,0.0,0.2857142857142857,"lag_1, rolling_mean_7, rolling_mean_14, lag_7, management_group_id"
+lowest_selected_forecast,16,802,2024-07-02,0.0,0.0,0.7859554,0.2857142857142857,0.2857142857142857,1.0,0,0,0.0,0.0,0.2857142857142857,"lag_1, rolling_mean_7, rolling_mean_14, lag_7, management_group_id"
+lowest_selected_forecast,21,802,2024-07-01,0.0,0.0,0.7859554,0.2714285714285716,0.14285714285714285,1.0,0,0,0.0,0.2,0.2714285714285716,"lag_1, rolling_mean_7, rolling_mean_14, lag_7, management_group_id"

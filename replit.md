@@ -1,6 +1,6 @@
-# [Project name]
+# Supply Chain Analytics
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Recruiter-facing analytics application for AI-driven inventory optimization using validated observations and modeled supply-chain outputs.
 
 ## Run & Operate
 
@@ -22,23 +22,33 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `lib/api-spec/openapi.yaml` — source-of-truth read-only API contract.
+- `artifacts/api-server/src/lib/supplyChainData.ts` — read-only loaders and grounded analyst logic over preserved CSV/JSON outputs.
+- `artifacts/api-server/data/supply-chain/` — copied validated structured outputs; no raw retailer data or database migration is required.
+- `artifacts/supply-chain-analytics/src/pages/dashboard.tsx` — responsive six-area analytics UI.
+- `artifacts/supply-chain-analytics/src/components/analytics/primitives.tsx` — chart, KPI, loading, empty, error, and CSV export primitives.
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- The analytics API is file-backed and read-only so existing validated outputs remain the source of truth.
+- Observed FreshRetailNet-50K values are labeled separately from modeled/simulated inventory, cost, risk, and scenario values.
+- Scenario Analysis exposes stored one-factor sensitivity values only; it does not run a new simulation or alter model assumptions.
+- The analyst is deliberately grounded to the preserved outputs and includes prompt-injection/unavailable-data safeguards.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+The app provides Executive Overview, Demand Forecasting, Inventory & Replenishment, Supply Chain Risk, AI Supply Chain Analyst, and Scenario Analysis views. It includes responsive navigation, store/product filters, chart CSV exports, refresh/PDF/dark-mode controls, loading/error/empty states, and source-period/provenance context.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Do not retrain the forecasting model or modify the underlying forecasting, inventory simulation, replenishment, risk, or analyst logic.
+- Do not fabricate sales, forecasts, costs, savings, supplier performance, or company-specific retailer results.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Managed workflows supply `PORT` and `BASE_PATH`; standalone Vite builds need those environment variables explicitly.
+- Auto-refresh is off by default and uses a minimum five-minute interval.
+- Scenario values must come from the stored sensitivity output; unavailable values should return a visible unavailable state.
 
 ## Pointers
 

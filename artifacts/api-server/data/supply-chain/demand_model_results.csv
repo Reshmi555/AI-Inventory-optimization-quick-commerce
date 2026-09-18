@@ -1,0 +1,37 @@
+split,model,segment,target_status,n,mae,rmse,wape,smape
+validation,seasonal_naive,overall_observed_target,observed sales target,6664,0.5214931,0.88070968,0.50520442,0.67203131
+validation,seasonal_naive,uncensored_observed_target,observed but potentially censored,4634,0.52874601,0.85953698,0.51817234,0.65870309
+validation,seasonal_naive,stockout_censored_observed_target,observed but potentially censored,2030,0.50493645,0.92723213,0.47668766,0.70245641
+validation,seasonal_naive,high_demand_observed_target,observed sales target,1628,0.9322973,1.45939126,0.3570071,0.49200392
+validation,xgb_observed_sales,overall_observed_target,observed sales target,6664,0.39259203,0.7379375,0.38032954,0.51337926
+validation,xgb_observed_sales,uncensored_observed_target,observed but potentially censored,4634,0.38605775,0.69609505,0.37833751,0.47967807
+validation,xgb_observed_sales,stockout_censored_observed_target,observed but potentially censored,2030,0.40750821,0.82554535,0.38471006,0.59031096
+validation,xgb_observed_sales,high_demand_observed_target,observed sales target,1628,0.76168719,1.32758974,0.29167492,0.35665042
+validation,xgb_stockout_aware,overall_observed_target,observed sales target,6664,0.3900364,0.65891449,0.37785373,0.51254778
+validation,xgb_stockout_aware,uncensored_observed_target,observed but potentially censored,4634,0.375772,0.61518972,0.36825745,0.47336122
+validation,xgb_stockout_aware,stockout_censored_observed_target,observed but potentially censored,2030,0.42259857,0.74922667,0.39895619,0.60200124
+validation,xgb_stockout_aware,high_demand_observed_target,observed sales target,1628,0.70008392,1.09395288,0.26808501,0.33499766
+test,seasonal_naive,overall_observed_target,observed sales target,13328,0.51902311,0.85459156,0.47904877,0.66929282
+test,seasonal_naive,uncensored_observed_target,observed but potentially censored,8890,0.52395624,0.85367691,0.48017755,0.6506509
+test,seasonal_naive,stockout_censored_observed_target,observed but potentially censored,4438,0.50914128,0.85642083,0.47673853,0.70663546
+test,seasonal_naive,high_demand_observed_target,observed sales target,3498,0.89401344,1.32928488,0.33750523,0.51606681
+test,xgb_observed_sales,overall_observed_target,observed sales target,13328,0.41235723,0.8113205,0.38059813,0.51181665
+test,xgb_observed_sales,uncensored_observed_target,observed but potentially censored,8890,0.39918423,0.75713542,0.36583075,0.46842525
+test,xgb_observed_sales,stockout_censored_observed_target,observed but potentially censored,4438,0.43874478,0.91021033,0.4108222,0.59873635
+test,xgb_observed_sales,high_demand_observed_target,observed sales target,3498,0.77669942,1.4213341,0.2932172,0.34982802
+test,xgb_stockout_aware,overall_observed_target,observed sales target,13328,0.40380961,0.6942473,0.37270884,0.50898486
+test,xgb_stockout_aware,uncensored_observed_target,observed but potentially censored,8890,0.38003492,0.62817661,0.34828144,0.46079761
+test,xgb_stockout_aware,stockout_censored_observed_target,observed but potentially censored,4438,0.45143401,0.81055651,0.42270386,0.60551138
+test,xgb_stockout_aware,high_demand_observed_target,observed sales target,3498,0.68083733,1.08665504,0.25702763,0.32601977
+external_eval,seasonal_naive,overall_observed_target,observed sales target,6664,0.53079097,0.85706239,0.4878031,0.69623485
+external_eval,seasonal_naive,uncensored_observed_target,observed but potentially censored,4368,0.54167834,0.8675209,0.46179464,0.66595848
+external_eval,seasonal_naive,stockout_censored_observed_target,observed but potentially censored,2296,0.5100784,0.83680492,0.55043362,0.75383379
+external_eval,seasonal_naive,high_demand_observed_target,observed sales target,1763,0.90559274,1.32407986,0.33761706,0.510341
+external_eval,xgb_observed_sales,overall_observed_target,observed sales target,6664,0.41244422,0.73546677,0.37904106,0.54432397
+external_eval,xgb_observed_sales,uncensored_observed_target,observed but potentially censored,4368,0.40765762,0.75585547,0.34753855,0.49203285
+external_eval,xgb_observed_sales,stockout_censored_observed_target,observed but potentially censored,2296,0.42155044,0.6950292,0.45490171,0.64380464
+external_eval,xgb_observed_sales,high_demand_observed_target,observed sales target,1763,0.78321668,1.24506855,0.29199363,0.38621997
+external_eval,xgb_stockout_aware,overall_observed_target,observed sales target,6664,0.41073375,0.70585872,0.37746911,0.54041584
+external_eval,xgb_stockout_aware,uncensored_observed_target,observed but potentially censored,4368,0.38510733,0.66182295,0.32831385,0.48019613
+external_eval,xgb_stockout_aware,stockout_censored_observed_target,observed but potentially censored,2296,0.45948645,0.78282475,0.49583905,0.65498015
+external_eval,xgb_stockout_aware,high_demand_observed_target,observed sales target,1763,0.71532013,1.11058821,0.26668089,0.3548849

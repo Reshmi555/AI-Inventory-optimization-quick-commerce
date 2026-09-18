@@ -1,0 +1,28 @@
+kind = "data-app"
+previewPath = "/"
+title = "Supply Chain Analytics"
+description = "A recruiter-facing analytics application for AI-driven inventory optimization in quick-commerce supply chains, grounded in validated forecasting, replenishment, simulation, risk, and analyst outputs."
+version = "1.0.0"
+id = "artifacts/supply-chain-analytics"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20365
+
+[services.development]
+run = "pnpm --filter @workspace/supply-chain-analytics run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/supply-chain-analytics", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/supply-chain-analytics/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20365"
+BASE_PATH = "/"
