@@ -297,7 +297,7 @@ export function getDrivers() {
 }
 
 const sensitivityLabels: Record<string, string> = {
-  demand_multiplier: "Demand multiplier",
+  demand_multiplier: "Demand / forecast-risk multiplier",
   forecast_risk_multiplier: "Forecast risk multiplier",
   lead_time_days: "Lead time",
   holding_cost_per_unit_day: "Holding cost per unit-day",
