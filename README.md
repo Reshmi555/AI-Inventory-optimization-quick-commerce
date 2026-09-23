@@ -49,29 +49,28 @@ The project includes an interactive dashboard covering:
 
 ## Dashboard Screenshots
 
-Selected views from the interactive supply-chain control room:
-
-- Executive Overview — network-level KPIs and operational exposure
-- Demand Forecasting — observed demand vs. model forecast
-- Inventory & Replenishment — policy comparison and inventory trade-offs
-- Supply Chain Risk — prioritized SKU-level exceptions
-- AI Supply Chain Analyst — grounded, evidence-based supply-chain analysis
-- Scenario Analysis — sensitivity analysis across inventory policies
-- ## Dashboard Screenshots
+## Dashboard Screenshots
 
 Selected views from the interactive supply-chain control room.
 
-### Executive Overview
+### Executive Overview — Network Summary
+![Executive Overview](./screenshots/1.png)
+
+### Executive Overview — Operational Detail
+![Executive Overview Detail](./screenshots/2.png)
 
 ### Demand Forecasting
+![Demand Forecasting](./screenshots/3.png)
 
-
-
-### Supply Chain Risk
+### Inventory & Replenishment
+![Inventory & Replenishment](./screenshots/4.png)
 
 ### AI Supply Chain Analyst
+![AI Supply Chain Analyst](./screenshots/5.png)
 
 ### Scenario Analysis
+![Scenario Analysis](./screenshots/6.png)
+
 ## Live Demo
 https://ai555.netlify.app
 
