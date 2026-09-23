@@ -65,9 +65,7 @@ Selected views from the interactive supply-chain control room.
 
 ### Demand Forecasting
 
-### Inventory & Replenishment
 
-![Inventory & Replenishment Dashboard](./4142993d-d178-4074-8984-fe71f5b1347d.jpeg)
 
 ### Supply Chain Risk
 
