@@ -57,6 +57,23 @@ Selected views from the interactive supply-chain control room:
 - Supply Chain Risk — prioritized SKU-level exceptions
 - AI Supply Chain Analyst — grounded, evidence-based supply-chain analysis
 - Scenario Analysis — sensitivity analysis across inventory policies
+- ## Dashboard Screenshots
+
+Selected views from the interactive supply-chain control room.
+
+### Executive Overview
+
+### Demand Forecasting
+
+### Inventory & Replenishment
+
+![Inventory & Replenishment Dashboard](./4142993d-d178-4074-8984-fe71f5b1347d.jpeg)
+
+### Supply Chain Risk
+
+### AI Supply Chain Analyst
+
+### Scenario Analysis
 ## Live Demo
 https://ai555.netlify.app
 
