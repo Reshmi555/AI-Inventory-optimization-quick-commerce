@@ -49,7 +49,7 @@ The project includes an interactive dashboard covering:
 
 ## Live Demo
 
-https://supply-chain-analytics--RESHMI-PANDEYPA.replit.app
+https://ai555.netlify.app
 
 ## Project Objective
 
